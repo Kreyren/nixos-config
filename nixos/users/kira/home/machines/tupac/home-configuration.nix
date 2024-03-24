@@ -29,6 +29,7 @@ in {
 		# pkgs.cura # Broken: https://github.com/NixOS/nixpkgs/issues/186570
 		pkgs.prusa-slicer
 		pkgs.fractal
+		pkgs.davinci-resolve
 		pkgs.qbittorrent
 		pkgs.stremio
 		pkgs.android-tools
