@@ -65,7 +65,7 @@
 
 		# Ragenix
 			ragenix = {
-				url = "github:yaxitech/ragenix";
+				url = "github:Kreyren/agenix/patch-3";
 				inputs.nixpkgs.follows = "nixpkgs";
 			};
 			ragenix-unstable = {
@@ -182,7 +182,7 @@
 						inputs.nixpkgs.legacyPackages.${system}.git # Working with the codebase
 						inputs.nixpkgs.legacyPackages.${system}.nano # Editor to work with the codebase in cli
 
-						inputs.ragenix.packages.${system}.default # To manage secrets
+						# inputs.ragenix.packages.${system}.default # To manage secrets
 						inputs.nixpkgs.legacyPackages.${system}.age # Managing age files
 
 						inputs.nixpkgs.legacyPackages.${system}.sops # Secret management

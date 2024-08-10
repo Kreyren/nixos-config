@@ -8,7 +8,7 @@
 				category = "Secrets Management";
 				exec = ''
 					# NixOS
-					RULES="$FLAKE_ROOT/src/nixos/secrets.nix" ${inputs'.ragenix.packages.ragenix}/bin/ragenix --rekey
+					RULES="$FLAKE_ROOT/src/nixos/secrets.nix" ${inputs'.ragenix.packages.agenix}/bin/agenix --rekey
 				'';
 			};
 		};
