@@ -24,8 +24,6 @@ esudo() { sudo env "PATH=$PATH" "$@" ;}
 [ -n "$ragenixTempDir" ] || ragenixTempDir="${XDG_RUNTIME_DIR:-"/run/user/$(id -u)"}/nixium"
 [ -n "$ragenixIdentity" ] || ragenixIdentity="$HOME/.ssh/id_ed25519"
 
-
-
 [ -d "$ragenixTempDir" ] || mkdir "$ragenixTempDir" # Make directory for managing secrets
 esudo chown "$USER:users" "$ragenixTempDir" # Ensure expected ownership
 esudo chmod 700 "$ragenixTempDir" # Ensure expected permission
