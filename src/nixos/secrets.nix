@@ -6,6 +6,7 @@ let
 	kira = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICWLIYYAXRUD0+bg5CXsxh9F4spvqCz4jaxvtGMsezl/";
 
 	# Systems
+	morph-system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDO4srKF7or/2SZ6eC7vX5mMdW2ZjE0r7GOBEWLm9KPf";
 	mracek-system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP8d9Nz64gE+x/+Dar4zknmXMAZXUAxhF1IgrA9DO4Ma";
 	pelagus-system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINhxI+25BwlCuEezW6Vc4mJ+EP/KO597PI2YfEU9t+vf";
 	sinnenfreude-system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIAXnS4xUPWwjBdKDvvy5OInLbs3oeHUUs5qUsX+fBji";
@@ -107,13 +108,18 @@ in {
 		kreyren mracek-system
 	];
 
-	# PELAGUS (system)
-	"./machines/pelagus/secrets/disks-password.age".publicKeys = [
-		kreyren pelagus-system
+	# MORPH (system)
+	"./machines/morph/secrets/morph-disks-password.age".publicKeys = [
+		kreyren morph-system
 	];
-	"./machines/pelagus/secrets/pelagus-onion.age".publicKeys = [
+
+	"./machines/morph/secrets/morph-onion.age".publicKeys = [
 		kreyren
 	] ++ all-systems;
+
+	"./machines/morph/secrets/morph-builder-ssh-ed25519-private.age".publicKeys = [
+		kreyren morph-system
+	];
 
 	# SINNENFREUDE (system)
 	"./machines/sinnenfreude/secrets/sinnenfreude-disks-password.age".publicKeys = [
