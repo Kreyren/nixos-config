@@ -31,7 +31,7 @@ esudo chmod 700 "$ragenixTempDir" # Ensure expected permission
 # Ensure that the expected directory is present
 [ -L "/run/agenix" ] || {
 	[ -d "/run/agenix.d/1" ] || esudo mkdir -p /run/agenix.d/1
-	esudo ln -sv /run/agenix /run/agenix/1
+	esudo ln -sv /run/agenix /run/agenix.d/1
 	esudo chown root:root /run/agenix/1
 	esudo chmod 400 /run/agenix.d/1
 }
