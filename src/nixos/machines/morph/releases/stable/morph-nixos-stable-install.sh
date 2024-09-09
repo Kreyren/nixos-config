@@ -47,7 +47,7 @@ else
 
 	[ -s "/run/agenix/morph-disks-password" ] || echo "000000" > "/run/agenix/morph-disks-password"
 
-	[ -s "/run/agenix/morph-ssh-ed25519-private" ] || ssh-keygen -f /run/agenix/morph-ssh-ed25519-private -N ""
+	[ -s "/run/agenix/morph-ssh-ed25519-private" ] || esudo ssh-keygen -f /run/agenix/morph-ssh-ed25519-private -N ""
 fi
 
 nixos-rebuild build --flake "$FLAKE_ROOT#nixos-morph-stable" # pre-build the configuration
