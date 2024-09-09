@@ -24,14 +24,33 @@ esudo() { sudo env "PATH=$PATH" "$@" ;}
 [ -n "$ragenixTempDir" ] || ragenixTempDir="${XDG_RUNTIME_DIR:-"/run/user/$(id -u)"}/nixium"
 [ -n "$ragenixIdentity" ] || ragenixIdentity="$HOME/.ssh/id_ed25519"
 
+
+
 [ -d "$ragenixTempDir" ] || mkdir "$ragenixTempDir" # Make directory for managing secrets
 esudo chown "$USER:users" "$ragenixTempDir" # Ensure expected ownership
 esudo chmod 700 "$ragenixTempDir" # Ensure expected permission
 
-# The disk password has to be in /run/agenix/ for `disko-install` to not fail
-[ -s "$ragenixTempDir/morph-disks-password" ] || esudo age --identity "$ragenixIdentity" --decrypt --output "$ragenixTempDir/morph-disks-password" "$secretPasswordPath"
+# Ensure that the expected directory is present
+[ -L "/run/agenix" ] || {
+	[ -d "/run/agenix.d/1" ] || mkdir -p /run/agenix.d/1
+	esudo ln -sv /run/agenix /run/agenix/1
+	esudo chown root:root /run/agenix/1
+	esudo chmod 400 /run/agenix.d/1
+}
 
-[ -s "$ragenixTempDir/morph-ssh-ed25519-private" ] || esudo age --identity "$ragenixIdentity" --decrypt --output "$ragenixTempDir/morph-ssh-ed25519-private" "$secretSSHHostKeyPath"
+# If the identity file is present then use it to decrypt secrets, else use hard-coded secrets
+if [ -s "$ragenixIdentity" ]; then
+	# The disk password has to be in /run/agenix/ for `disko-install` to not fail
+	[ -s "$ragenixTempDir/morph-disks-password" ] || esudo age --identity "$ragenixIdentity" --decrypt --output "$ragenixTempDir/morph-disks-password" "$secretPasswordPath"
+
+	[ -s "$ragenixTempDir/morph-ssh-ed25519-private" ] || esudo age --identity "$ragenixIdentity" --decrypt --output "$ragenixTempDir/morph-ssh-ed25519-private" "$secretSSHHostKeyPath"
+else
+	printf '!!!SECURITY WARNING!!!\n!!!SECURITY WARNING!!!\n!!!SECURITY WARNING!!!\n%s\n!!!SECURITY WARNING!!!\n!!!SECURITY WARNING!!!\n!!!SECURITY WARNING!!!\n' 'USING HARD-CODED SECRETS, DUE TO UNAVAILABLE IDENTITY FILE, ___THIS IS A SECURITY HOLE___'
+
+	[ -s "/run/agenix/morph-disks-password" ] || echo "000000" > "/run/agenix/morph-disks-password"
+
+	[ -s "/run/agenix/morph-ssh-ed25519-private" ] || ssh-keygen -f /run/agenix/morph-ssh-ed25519-private -N ""
+fi
 
 nixos-rebuild build --flake "$FLAKE_ROOT#nixos-morph-stable" # pre-build the configuration
 
