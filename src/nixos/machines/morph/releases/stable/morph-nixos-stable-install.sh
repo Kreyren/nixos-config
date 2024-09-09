@@ -45,9 +45,12 @@ if [ -s "$ragenixIdentity" ]; then
 else
 	printf '!!!SECURITY WARNING!!!\n!!!SECURITY WARNING!!!\n!!!SECURITY WARNING!!!\n%s\n!!!SECURITY WARNING!!!\n!!!SECURITY WARNING!!!\n!!!SECURITY WARNING!!!\n' 'USING HARD-CODED SECRETS, DUE TO UNAVAILABLE IDENTITY FILE, ___THIS IS A SECURITY HOLE___'
 
-	[ -s "/run/agenix/morph-disks-password" ] || echo "000000" > "/run/agenix/morph-disks-password"
+	sudo ls "/run/agenix/morph-disks-password" 1>/dev/null || {
+		echo "000000" > "$ragenixTempDir/morph-ssh-ed25519-private"
+		esudo mv "$ragenixTempDir/morph-ssh-ed25519-private" "/run/agenix/morph-disks-password"
+	}
 
-	[ -s "/run/agenix/morph-ssh-ed25519-private" ] || esudo ssh-keygen -f /run/agenix/morph-ssh-ed25519-private -N ""
+	[ -s "$ragenixTempDir/morph-ssh-ed25519-private" ] || ssh-keygen -f "$ragenixTempDir/morph-ssh-ed25519-private" -N ""
 fi
 
 nixos-rebuild build --flake "$FLAKE_ROOT#nixos-morph-stable" # pre-build the configuration
