@@ -1,10 +1,12 @@
 #@ This POSIX Shell Script is executed in an isolated reproducible environment managed by Nix <https://github.com/NixOS/nix>, which handles dependencies, ensures deterministic function imports, sets any needed variables and performs strict linting prior to script execution to capture common issues for quality assurance.
 
 # shellcheck disable=SC2154 # Do not trigger SC2154 for variables provided to the environment by Nix
-: "$systemDevice" # Absolute path to target device by id
-: "$secretPasswordPath" # Path to the file storing decrypted secret with disk password
-: "$secretSSHHostKeyPath" # Path to the private SSH key of the system
-: "$nixiumDoNotReboot" # Internal variable to prevent reboot after installation for special use-cases
+{
+	: "$systemDevice" # Absolute path to target device by id
+	: "$secretPasswordPath" # Path to the file storing decrypted secret with disk password
+	: "$secretSSHHostKeyPath" # Path to the private SSH key of the system
+	: "$nixiumDoNotReboot" # Internal variable to prevent reboot after installation for special use-cases
+}
 
 ### [START] Export this outside [START] ###
 
