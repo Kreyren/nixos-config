@@ -9,15 +9,15 @@ let
 in {
 	config = mkMerge [
 		(mkIf (config.system.nixos.release == "24.05") {
-			sound.enable = false;
+			sound.enable = true;
 
 			hardware.pulseaudio.enable = false;
 
 			services.pipewire = {
-				enable = false;
-				alsa.enable = false;
-				alsa.support32Bit = false;
-				pulse.enable = false;
+				enable = true;
+				alsa.enable = true;
+				alsa.support32Bit = true;
+				pulse.enable = true;
 			};
 		})
 
@@ -25,10 +25,10 @@ in {
 			hardware.pulseaudio.enable = false;
 
 			services.pipewire = {
-				enable = false;
-				alsa.enable = false;
-				alsa.support32Bit = false;
-				pulse.enable = false;
+				enable = true;
+				alsa.enable = true;
+				alsa.support32Bit = true;
+				pulse.enable = true;
 			};
 		})
 

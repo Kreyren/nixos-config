@@ -9,6 +9,11 @@ in mkIf config.services.sunshine.enable {
 
 	services.sunshine.openFirewall = true; # Open Firewall for local network
 
+	networking.firewall = {
+		allowedUDPPorts = [ 47990 ];
+		allowedTCPPorts = [ 47990 ];
+	};
+
 	# Declare the expected applications
 	# services.sunshine.applications = {
 	# 	env = {

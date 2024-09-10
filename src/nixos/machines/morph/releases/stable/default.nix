@@ -76,7 +76,10 @@ in {
 	perSystem = { system, pkgs, inputs', self', ... }: {
 		packages.nixos-morph-stable-install = pkgs.writeShellApplication {
 				name = "nixos-morph-stable-install";
-				bashOptions = [ "errexit" "xtrace" ];
+				bashOptions = [
+					"errexit" # Exit on False Return
+					"posix" # Run in POSIX mode
+				];
 				runtimeInputs = [
 					inputs'.disko.packages.disko-install # disko-install
 					pkgs.age # age
@@ -87,8 +90,6 @@ in {
 				];
 				runtimeEnv = {
 					systemDevice = self.nixosConfigurations.nixos-morph-stable.config.disko.devices.disk.system.device;
-
-					systemDeviceBlock = self.nixosConfigurations.nixos-morph-stable.config.disko.devices.disk.system.device;
 
 					secretPasswordPath = self.nixosConfigurations.nixos-morph-stable.config.age.secrets.morph-disks-password.file;
 

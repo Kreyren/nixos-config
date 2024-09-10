@@ -179,8 +179,11 @@
 					name = "NiXium-devshell";
 					nativeBuildInputs = [
 						inputs.nixpkgs.legacyPackages.${system}.bashInteractive # For terminal
+						inputs.nixpkgs.legacyPackages.${system}.shellcheck # Linting of shell files
+
 						inputs.nixpkgs.legacyPackages.${system}.nil # Needed for linting
 						inputs.nixpkgs.legacyPackages.${system}.nixpkgs-fmt # Nixpkgs formatter
+
 						inputs.nixpkgs.legacyPackages.${system}.git # Working with the codebase
 						inputs.nixpkgs.legacyPackages.${system}.nano # Editor to work with the codebase in cli
 						inputs.nixpkgs.legacyPackages.${system}.jq # Manipulating JSON data

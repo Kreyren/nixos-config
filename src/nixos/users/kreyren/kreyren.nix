@@ -19,6 +19,7 @@ in {
 		# hashedPasswordFile = config.sops.secrets."users/kreyren/hashed-password".path;
 		extraGroups = [
 			"wheel"
+			"video"
 			(mkIf config.virtualisation.docker.enable "docker")
 			"dialout" # To Access e.g. /dev/ttyUSB0 for USB debuggers
 			(mkIf config.programs.adb.enable "adbusers")

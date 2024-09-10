@@ -7,6 +7,9 @@
 		imports = [
 			self.nixosModules.default # Load NiXium's Global configuration
 
+			# Users
+			self.nixosModules.users-kreyren
+
 			# Files
 			./config/bootloader.nix
 			./config/disks.nix
