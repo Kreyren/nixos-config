@@ -4,6 +4,7 @@
 : "$systemDevice" # Absolute path to target device by id
 : "$secretPasswordPath" # Path to the file storing decrypted secret with disk password
 : "$secretSSHHostKeyPath" # Path to the private SSH key of the system
+: "$nixiumDoNotReboot" # Internal variable to prevent reboot after installation for special use-cases
 
 ### [START] Export this outside [START] ###
 
