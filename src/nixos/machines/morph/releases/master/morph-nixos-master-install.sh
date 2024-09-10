@@ -16,7 +16,7 @@ esudo() { sudo env "PATH=$PATH" "$@" ;}
 
 # FIXME(Krey): This should be managed for all used scripts e.g. runtimeEnv
 # Refer to https://github.com/srid/flake-root/discussions/5 for details tldr flake-root doesn't currently allow parsing the specific commit
-[ -n "$FLAKE_ROOT" ] || FLAKE_ROOT="github:NiXium-org/NiXium/$(curl -s -X GET "https://api.github.com/repos/NiXium-org/NiXium/commits" | jq -r '.[0].sha')"
+[ -n "$FLAKE_ROOT" ] || FLAKE_ROOT="github:NiXium-org/NiXium/$(curl -s -X GET "https://api.github.com/repos/NiXium-org/NiXium/commits?sha=add-morph" | jq -r '.[0].sha')"
 
 # Check if the declared installation device is available on the target system, if not fail for safety
 [ -b "$systemDevice" ] || die 1 "Expected device was not found, refusing to install for safety"
