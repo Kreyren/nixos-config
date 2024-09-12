@@ -50,6 +50,17 @@ in {
 					# 	hidden = true;
 					# 	psk = "PSK"; # CONFIDENTIAL!
 					# };
+
+					systemd.services.unattended-installer = {
+						wantedBy = [ "network-online.target" ];
+						path = [
+							pkgs.nix # Dependency of nixos-install
+							# Dependencies of disko/disk-deactivate
+							pkgs.gawk
+							pkgs.zfs
+						];
+						script = {};
+					};
 				}
 			];
 

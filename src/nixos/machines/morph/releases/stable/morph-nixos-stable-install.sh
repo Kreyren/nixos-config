@@ -14,7 +14,7 @@
 die() { printf "FATAL: %s\n" "$2"; exit ;} # Termination Helper
 
 # FIXME-QA(Krey): This should be a runtimeInput
-status() { printf "STATUS: %s\n" "$@" ;} # Status Helper
+status() { printf "STATUS: %s\n" "$1" ;} # Status Helper
 
 # FIXME-QA(Krey): This should be a runtimeInput
 warn() { printf "WARNING: %s\n" "$1" ;} # Warning Helper
@@ -50,10 +50,10 @@ warn() { printf "WARNING: %s\n" "$1" ;} # Warning Helper
 #! Ensure sane Ragenix Secret Directory ("RSD")
 # By default the RSD is a symlink to /run/agenix.d/<num>
 if [ -L "/run/agenix" ]; then
-	status Required Ragenix Secret Directory is present
+	status "Required Ragenix Secret Directory is present"
 
 else # We assume that ragenix is not deployed on the target system
-	status Expected Ragenix Secret Directory is not present, setting up manually
+	status "Expected Ragenix Secret Directory is not present, setting up manually"
 
 	[ -d "/run/agenix" ] || mkdir --verbose --parents  /run/agenix.d/1
 
@@ -63,25 +63,25 @@ else # We assume that ragenix is not deployed on the target system
 	chown --verbose "root:root" "/run/agenix.d/1" # Ensure expected ownership
 	chmod --verbose 700 "/run/agenix.d/1" # Ensure expected permission
 
-	status Ragenix Secret Directory has been set up
+	status "Ragenix Secret Directory has been set up"
 fi
 
 #! Set up the identity file
-status Verifying the Identity File
+status "Verifying the Identity File"
 
 [ -n "$ragenixIdentity" ] || ragenixIdentity="$HOME/.ssh/id_ed25519" # Try to use the default path
 
 # If the identity file is provided then use it to decrypt the secrets otherwise use hard-coded secrets
 if [ -s "$ragenixIdentity" ]; then
-	status The identity file is provided trying to decrypt the secrets
+	status "The identity file is provided trying to decrypt the secrets"
 
 	[ -s "/run/agenix/morph-disks-password" ] || age --identity "$ragenixIdentity" --decrypt --output "/run/agenix/morph-disks-password" "$secretPasswordPath"
 
 	[ -s "/run/agenix/morph-ssh-ed25519-private" ] || age --identity "$ragenixIdentity" --decrypt --output "/run/agenix/morph-ssh-ed25519-private" "$secretSSHHostKeyPath"
 
-	status Decrypting of required secrets was successful
+	status "Decrypting of required secrets was successful"
 else
-	status Required Identity File was not found, managing by using hard-coded secrets
+	status "Required Identity File was not found, managing by using hard-coded secrets"
 
 	warn "BEWARE THAT USING HARD-CODED SECRETS IS A SECURITY HOLE!"
 
@@ -91,11 +91,11 @@ else
 fi
 
 #! Pre-build the system configuration
-status Pre-building the system configuration
+status "Pre-building the system configuration"
 nixos-rebuild build --flake "$FLAKE_ROOT#nixos-morph-stable" # pre-build the configuration
 
 #! Perform the Payload
-status Performing the system installation
+status "Performing the system installation"
 esudo disko-install \
 	--flake "$FLAKE_ROOT#nixos-morph-stable" \
 	--mode format \
@@ -105,6 +105,6 @@ esudo disko-install \
 
 #! Reboot in the new Operating System
 [ "$nixiumDoNotReboot" = 0  ] || {
-	status Installation was successful, performing reboot
+	status "Installation was successful, performing reboot"
 	reboot
 }
