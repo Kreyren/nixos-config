@@ -39,6 +39,9 @@
 
 	age.secrets.sinnenfreude-ssh-ed25519-private.file = ../secrets/sinnenfreude-ssh-ed25519-private.age; # Declare private key
 
+	# This is needed to get simplex to sync with other accounts (https://github.com/simplex-chat/simplex-chat/issues/3425#issuecomment-2336520556)
+	networking.firewall.allowedTCPPorts = [ 40000 ];
+
 	# Necessary Evil :(
 	hardware.enableRedistributableFirmware = true;
 	hardware.cpu.intel.updateMicrocode = true;

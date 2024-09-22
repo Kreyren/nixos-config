@@ -75,6 +75,7 @@ in {
 		pkgs.libreoffice
 
 		polymc.polymc
+		pkgs.moonlight-qt
 
 		# Slicers
 		pkgs.prusa-slicer
@@ -82,7 +83,6 @@ in {
 		pkgs.orca-slicer # Prusa-slicer fork by BambuLab adapted by the community
 
 		# Games
-		aagl.anime-game-launcher # An Anime Game
 		pkgs.colobot
 		pkgs.etlegacy # Wolfenstein: Enemy Territory
 		pkgs.airshipper # Veloren

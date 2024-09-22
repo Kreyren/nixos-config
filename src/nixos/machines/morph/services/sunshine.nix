@@ -1,4 +1,4 @@
-{ self, pkgs, config, lib, ... }:
+{ self, pkgs, config, lib, aagl, ... }:
 
 # MORPH-specific configuration of Sunshine
 
@@ -15,22 +15,43 @@ in mkIf config.services.sunshine.enable {
 	};
 
 	# Declare the expected applications
-	# services.sunshine.applications = {
-	# 	env = {
-	# 		PATH = "$(PATH):$(HOME)/.local/bin";
-	# 	};
-	# 	apps = [
-	# 		{
-	# 			name = "1440p Desktop";
-	# 			prep-cmd = [
-	# 				{
-	# 					do = "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-4.mode.2560x1440@144";
-	# 					undo = "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-4.mode.3440x1440@144";
-	# 				}
-	# 			];
-	# 			exclude-global-prep-cmd = "false";
-	# 			auto-detach = "true";
-	# 		}
-	# 	];
-	# };
+	services.sunshine.applications = {
+		apps = [
+			{
+				name = "Desktop";
+				image-path =  "desktop.png";
+			}
+			{
+				name = "Genshin Impact";
+				image-path = "desktop.png";
+				cmd = "${self.inputs.aagl.packages.x86_64-linux.anime-game-launcher}/bin/anime-game-launcher";
+			}
+		];
+	};
+
+	# User used for the session
+	users.users.sunshine = {
+		description = "A Sunshine User";
+		# uid = 1000;
+		isNormalUser = true;
+		createHome = true;
+		extraGroups = [
+			"video"
+		];
+		packages = [
+			self.inputs.aagl.packages.x86_64-linux.anime-game-launcher
+		];
+	};
+
+	services.tor.relay.onionServices."sunshine".map = mkIf config.services.tor.enable [{ port = 80; target = { port = 47990; }; }]; # Provide the admin panel over onions to make it accessible
+
+	services.displayManager.autoLogin.enable = true;
+	services.displayManager.autoLogin.user = "sunshine";
+
+	networking.interfaces.enp6s0.wakeOnLan.enable = true;
+
+	# Impermanence
+	environment.persistence."/nix/persist/system".directories = mkIf config.boot.impermanence.enable [
+		"/home/sunshine/.local/share/anime-game-launcher"
+	];
 }

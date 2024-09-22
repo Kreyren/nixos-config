@@ -20,7 +20,7 @@
 
 	# Option 'sound' has been removed
 	"24.11" = {
-		hardware.pulseaudio.enable = false; # Whether to use pulseaudio, requires to be turned off if pipewire is used
+		hardware.pulseaudio.enable = true; # Whether to use pulseaudio, requires to be turned off if pipewire is used
 		services.pipewire.enable = true; # Whether to use pipewire
 
 		# Pipewire
@@ -29,6 +29,7 @@
 			alsa.support32Bit = true; # Allow 32-bit ALSA support
 			pulse.enable = true; # Integrate pulseaudio in pipewire
 		};
+		services.pipewire.wireplumber.enable = true;
 
 		security.rtkit.enable = true; # Allow real-time scheduling priority to user
 	};

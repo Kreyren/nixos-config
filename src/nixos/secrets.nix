@@ -114,7 +114,15 @@ in {
 		kreyren morph-system
 	];
 
+	"./machines/morph/secrets/morph-initrd-ed25519-key.age".publicKeys = [
+		kreyren
+	] ++ all-systems;
+
 	"./machines/morph/secrets/morph-onion.age".publicKeys = [
+		kreyren
+	] ++ all-systems;
+
+	"./machines/morph/secrets/morph-openssh-onion.age".publicKeys = [
 		kreyren
 	] ++ all-systems;
 
