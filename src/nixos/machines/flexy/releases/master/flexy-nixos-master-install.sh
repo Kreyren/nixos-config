@@ -85,10 +85,13 @@ else
 
 	warn "BEWARE THAT USING HARD-CODED SECRETS IS A SECURITY HOLE!"
 
-	[ -s "/run/agenix/flexy-disks-password" ] || echo "000000" > "/run/agenix/flexy-ssh-ed25519-private"
+	[ -s "/run/agenix/flexy-disks-password" ] || echo "000000" > "/run/agenix/flexy-disks-password"
 
 	[ -s "/run/agenix/flexy-ssh-ed25519-private" ] || ssh-keygen -f "/run/agenix/flexy-ssh-ed25519-private" -N ""
 fi
+
+# FIXME(Krey): To be managed..
+warn "The Flexy System halts due to insufficient on-board memory to build NiXium derivation when the installer is deployed in RAM"
 
 #! Pre-build the system configuration
 status "Pre-building the system configuration"
@@ -96,12 +99,12 @@ nixos-rebuild build --flake "$FLAKE_ROOT#nixos-flexy-master" # pre-build the con
 
 #! Perform the Payload
 status "Performing the system installation"
-esudo disko-install \
+disko-install \
 	--flake "$FLAKE_ROOT#nixos-flexy-master" \
 	--mode format \
 	--debug \
 	--disk system "$(realpath "$systemDevice" || true)" \
-	--extra-files "$/run/agenix/flexy-ssh-ed25519-private" /nix/persist/system/etc/ssh/ssh_host_ed25519_key
+	--extra-files "/run/agenix/flexy-ssh-ed25519-private" /nix/persist/system/etc/ssh/ssh_host_ed25519_key
 
 #! Reboot in the new Operating System
 [ "$nixiumDoNotReboot" = 0  ] || {

@@ -90,6 +90,9 @@ else
 	[ -s "/run/agenix/flexy-ssh-ed25519-private" ] || ssh-keygen -f "/run/agenix/flexy-ssh-ed25519-private" -N ""
 fi
 
+# FIXME(Krey): To be managed..
+warn "The Flexy System halts due to insufficient on-board memory to build NiXium derivation when the installer is deployed in RAM"
+
 #! Pre-build the system configuration
 status "Pre-building the system configuration"
 nixos-rebuild build --flake "$FLAKE_ROOT#nixos-flexy-stable" # pre-build the configuration

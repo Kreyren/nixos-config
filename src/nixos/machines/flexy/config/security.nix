@@ -12,6 +12,15 @@ in {
 		{
 			security.allowSimultaneousMultithreading = mkForce false; # Disable Simultaneous Multi-Threading as on this system it exposes unwanted attack vectors
 
+			# NOTE(Krey): Breaks USB
+			security.lockKernelModules = false;
+
+			# NOTE(Krey): Breaks hibernation
+			security.protectKernelImage = false;
+
+			# SECURITY(Krey): Some packages run in electron (vscodium) which requires this, in process of managing it
+			security.unprivilegedUsernsClone = true;
+
 			# Kernel
 				boot.kernelPackages = mkForce pkgs.linuxPackages_hardened; # Always use the Hardened Kernel
 
@@ -23,7 +32,7 @@ in {
 
 			# Necessary Evil to keep the CPU microcode up-to-date, such is all i686 and amd64 architecture systems
 			hardware.enableRedistributableFirmware = true;
-			hardware.cpu.intel.updateMicrocode = mkDefault config.hardware.enableRedistributableFirmware;
+			hardware.cpu.amd.updateMicrocode = mkDefault config.hardware.enableRedistributableFirmware;
 		}
 
 		# # Enforce to use the Tor Proxy

@@ -8,7 +8,7 @@ let
 	kira = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICWLIYYAXRUD0+bg5CXsxh9F4spvqCz4jaxvtGMsezl/";
 
 	# Systems
-	flexy-system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJQei8wZXD379qw4ygSTOZ1cdj6vHwtFG7QsuWdT0UlM";
+	flexy-system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFSY5vNrQFfnDqBOqse2AHSWY1hIIpZWiBYTdQEIYnV9";
 	mracek-system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP8d9Nz64gE+x/+Dar4zknmXMAZXUAxhF1IgrA9DO4Ma";
 	pelagus-system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINhxI+25BwlCuEezW6Vc4mJ+EP/KO597PI2YfEU9t+vf";
 	sinnenfreude-system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIAXnS4xUPWwjBdKDvvy5OInLbs3oeHUUs5qUsX+fBji";
@@ -30,7 +30,7 @@ in {
 	] ++ all-systems;
 
 	"./users/kreyren/home/modules/vpn/kreyren-wireproxy-protonvpn-config.age".publicKeys = [
-		kreyren sinnenfreude-system
+		kreyren flexy-system sinnenfreude-system
 	];
 
 	# Kira (user)
@@ -170,7 +170,7 @@ in {
 		kreyren kira tupac-system
 	];
 	"./machines/tupac/secrets/tupac-onion.age".publicKeys = [
-		kreyren kira tupac-system sinnenfreude-system mracek-system
+		kreyren kira flexy-system sinnenfreude-system mracek-system
 	];
 	"./machines/tupac/secrets/tupac-onion-secretKey.age".publicKeys = [
 		kreyren kira tupac-system
